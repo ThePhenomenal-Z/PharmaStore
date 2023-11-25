@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class registerRequest extends FormRequest
 {
@@ -29,5 +31,13 @@ class registerRequest extends FormRequest
             "address"=>["required","string"],
             "name"=>["required","string"],
         ];
+    }
+    // validation error handeling
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'message' => 'The given data is invalid.',
+        ], 422));
     }
 }

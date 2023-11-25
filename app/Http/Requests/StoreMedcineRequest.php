@@ -5,8 +5,9 @@ namespace App\Http\Requests;
 use App\Models\Medcine;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreMedcineRequest extends FormRequest
 {
@@ -40,12 +41,12 @@ class StoreMedcineRequest extends FormRequest
            "category_id"=>['required','exists:categories,id']
         ];
     }
-    // protected function failedValidation(Validator $validator)
-    // {
-    //     $exception = $validator->getException();
-
-    //     throw (new $exception($validator))
-    //                 ->errorBag($this->errorBag)
-    //                 ->redirectTo($this->getRedirectUrl());
-    // }
+     // validation error handeling
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors(),
+            'message' => 'The given data is invalid.',
+        ], 422));
+    }
 }

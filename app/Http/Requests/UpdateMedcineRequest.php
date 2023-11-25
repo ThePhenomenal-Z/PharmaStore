@@ -34,11 +34,8 @@ class UpdateMedcineRequest extends FormRequest
             "qtn"=>['sometimes', 'required'],
             "expiredDate"=>['sometimes', 'required'],
             "price"=> ['sometimes', 'required'],
-           "description"=> ['sometimes', 'required'],
-           "user_id"=>["sometimes","int",Rule::exists("users","id")->where(function ($query){
-            $query->where("user_id", Auth::id());
-        })],
-        "category_id"=>['required','exists:categories,id']
+            "description"=> ['sometimes', 'required'],
+            "category_id"=>['sometimes','exists:categories,id']
         ];
     }
 }

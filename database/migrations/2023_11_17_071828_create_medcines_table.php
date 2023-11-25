@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('medcines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('enSciName');
             $table->string('arSciName');
             $table->string('enUseName')->unique();

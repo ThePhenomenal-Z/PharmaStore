@@ -21,7 +21,7 @@ class MedcinePolicy
      */
     public function view(User $user, Medcine $medcine)
     {
-        return $user->id === $medcine->user_id;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class MedcinePolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->isStoreOwner;
     }
 
     /**
@@ -37,7 +37,7 @@ class MedcinePolicy
      */
     public function update(User $user, Medcine $medcine): bool
     {
-        return $user->id === $medcine->user_id;
+        return $user->isStoreOwner;
     }
 
     /**
@@ -45,7 +45,7 @@ class MedcinePolicy
      */
     public function delete(User $user, Medcine $medcine): bool
     {
-        return $user->id === $medcine->user_id;
+        return $user->isStoreOwner;
     }
 
     /**

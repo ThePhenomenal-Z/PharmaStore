@@ -35,7 +35,6 @@ class MedcineResource extends JsonResource
             "qtn"=>$this->qtn,
             "expiredDate"=>$this->expiredDate,
             "price"=> $this->price,
-            "user_id"=> $this->user_id,
             "description"=> $desc
         ];
     }

@@ -20,14 +20,10 @@ class MedcineController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Medcine::class);
-    
-        $user = Auth::user();
         $filter=new MedcineFilter();
         $queryItems=$filter->transform($request);
         
-        $filteredMedcines = Medcine::where($queryItems)
-            ->where('user_id', $user->id)->get();
+        $filteredMedcines = Medcine::all();
 
         $medcineCollection = $filteredMedcines->mapInto(MedcineResource::class);
 
@@ -57,7 +53,6 @@ class MedcineController extends Controller
     {
        // dd(Auth::user());
         $validatedData = $request->validated();
-        $validatedData['user_id'] = Auth::id();
         $medcine = Medcine::create($validatedData);
         return new MedcineResource($medcine);
     }
@@ -75,7 +70,7 @@ class MedcineController extends Controller
      */
     public function update(UpdateMedcineRequest $request, Medcine $medcine)
     {
-        $validated= $request->validated();
+        $validated= $request->validated(); 
         $medcine->update($validated);
         return new MedcineResource($medcine);
     }

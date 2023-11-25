@@ -13,9 +13,6 @@ class Medcine extends Model
         "category_id","companyName","qtn","expiredDate",
         "price","description","user_id"
     ];
-    public function user(){
-        return $this->belongsToOne(User::class);
-    }
     public function category(){
 
         return $this->belongsTo(Category::class);

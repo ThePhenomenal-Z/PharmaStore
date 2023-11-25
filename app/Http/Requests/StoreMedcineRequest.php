@@ -25,10 +25,6 @@ class StoreMedcineRequest extends FormRequest
      */
     public function rules(): array
     {
-        // if(in_array($this->enUseName,Medcine::pluck('enUseName')->toArray())){
-        //     dd("already in table");
-        // }
-        $user=Auth::user();
         return [
             "enSciName"=>['required'],
             "arSciName"=>['required'],
@@ -41,18 +37,15 @@ class StoreMedcineRequest extends FormRequest
             "expiredDate"=>['required'],
             "price"=> ['required'],
            "description"=> ['required'],
-           "user_id" => [
-            Rule::in([$user->id]),
-           ],
            "category_id"=>['required','exists:categories,id']
         ];
     }
-    protected function failedValidation(Validator $validator)
-    {
-        $exception = $validator->getException();
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     $exception = $validator->getException();
 
-        throw (new $exception($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl());
-    }
+    //     throw (new $exception($validator))
+    //                 ->errorBag($this->errorBag)
+    //                 ->redirectTo($this->getRedirectUrl());
+    // }
 }

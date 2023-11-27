@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::get('pharmasists',[PharmacistController::class,'index']);
 Route::post('register',[PharmacistController::class,'register']);
 Route::post('login',[PharmacistController::class,'login']);
-Route::post('wlogin',[PharmacistController::class,'webLogin']);
+Route::post('webLogin',[PharmacistController::class,'webLogin']);
 // Route::post('logout',[PharmacistController::class,'logout']);
 // Route::get('medcines',[MedcineController::class,'index']);
 // Route::post('medcines',[MedcineController::class,'store']);

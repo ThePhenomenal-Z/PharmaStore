@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 class MedcineFilter{
     protected $safeParms =[
         'category_id'=>['eq'],
-        'enUseName'=>['eq'],
-        'enSciName'=>['eq'],
+        'enUseName'=>['eq','like'],
+        'enSciName'=>['eq','like'],
         'price'=>['eq','lt','gt'],
         'qtn'=>['eq','lt','gt','lte','gte']
     ];
@@ -16,24 +16,31 @@ class MedcineFilter{
         'lt'=>'<',
         'lte'=>'<=',
         'gt'=>'>',
-        'gte'=>'>='
+        'gte'=>'>=',
+        'like' => 'LIKE'
     ];
-    public function transform(Request $request){
-        $eleQuery=[];
+    public function transform(Request $request)
+    {
+        $eleQuery = [];
 
-        foreach($this->safeParms as $parm=>$operators){
-            $query=$request->query($parm);
-            if(! isset($query)){
+        foreach ($this->safeParms as $parm => $operators) {
+            $query = $request->query($parm);
+            
+            if (!isset($query)) {
                 continue;
             }
             
-            foreach($operators as $operater){
-                if(isset($query[$operater])){
-                    $eleQuery[]=[$parm,$this->operatorMap[$operater],$query[$operater]];
+            foreach ($operators as $operator) {
+                if (isset($query[$operator])) {
+                    if ($operator === 'like') {
+                        $eleQuery[] = [$parm, $this->operatorMap[$operator], '%' . $query[$operator] . '%'];
+                    } else {
+                        $eleQuery[] = [$parm, $this->operatorMap[$operator], $query[$operator]];
+                    }
                 }
             }
-
         }
+        
         return $eleQuery;
     }
 

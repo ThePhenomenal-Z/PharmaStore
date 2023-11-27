@@ -46,7 +46,6 @@ class PharmacistController extends Controller
         }
         $pharmacist=User::where("phoneNumber", $validated["phoneNumber"])->first();
         if(! $pharmacist->isStoreOwner){
-            //$pharmacist->token()->revoke();
             return response()->json([
                 "error"=> "Not allowed"
             ],401);
@@ -109,14 +108,6 @@ class PharmacistController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorepharmacistRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(pharmacist $pharmacist)
@@ -128,14 +119,6 @@ class PharmacistController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(pharmacist $pharmacist)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatepharmacistRequest $request, pharmacist $pharmacist)
     {
         //
     }

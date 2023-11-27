@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
 use App\Models\Medcine;
+use App\Models\Category;
+use App\Models\Favourite;
 use Illuminate\Http\Request;
 use App\Filters\MedcineFilter;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\MedcineResource;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\MedcineCollection;
 use App\Http\Requests\StoreMedcineRequest;
 use App\Http\Requests\UpdateMedcineRequest;
@@ -20,15 +21,17 @@ class MedcineController extends Controller
      */
     public function index(Request $request)
     {
-        $filter=new MedcineFilter();
-        $queryItems=$filter->transform($request);
-        
-        $filteredMedcines = Medcine::all();
+        $this->authorize('viewAny', Medcine::class);
 
-        $medcineCollection = $filteredMedcines->mapInto(MedcineResource::class);
+        $filter = new MedcineFilter();
+        $queryItems = $filter->transform($request);
 
-        return MedcineResource::collection($medcineCollection);
-    }
+        if (empty($queryItems)) {
+            return new MedcineCollection(Medcine::all());
+        } else {
+            // Apply the filters to the query
+            return new MedcineCollection(Medcine::where($queryItems)->get());
+        }    }
     /**
      * Display the specified resource.
      */
@@ -85,9 +88,26 @@ class MedcineController extends Controller
             "message"=> "the medcine has been deleted successfully",
         ]);
     }
+    public function addToFavorites(Request $request, $medcineId)
+    {
+        $userId = auth()->user()->id;
+
+        // Check if the medicine is already in favorites
+        if (Favourite::where('user_id', $userId)->where('medcine_id', $medcineId)->exists()) {
+            return response()->json(['message' => 'Medcine is already in favorites']);
+        }
+
+        // Add the medicine to favorites
+        Favourite::create([
+            'user_id' => $userId,
+            'medcine_id' => $medcineId,
+        ]);
+
+        return response()->json(['message' => 'Medcine added to favorites']);
+    }
     //
     public function __construct()
-{
-    $this->authorizeResource(Medcine::class, 'medcine');
-}
+    {
+        $this->authorizeResource(Medcine::class, 'medcine');
+    }
 }

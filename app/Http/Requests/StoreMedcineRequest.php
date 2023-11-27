@@ -27,12 +27,8 @@ class StoreMedcineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "enSciName"=>['required'],
-            "arSciName"=>['required'],
-            "enUseName"=>['required','unique:medcines'],
-            "arUseName"=>['required'],
-            //"enCatigory"=>['required'],
-            //"arCatigory"=>['required'],
+            "sciName"=>['required'],
+            "useName"=>['required','unique:medcines'],
             "companyName"=>['required'],
             "qtn"=>['required'],
             "expiredDate"=>['required'],

@@ -13,12 +13,8 @@ return new class extends Migration
     {
         Schema::create('medcines', function (Blueprint $table) {
             $table->id();
-            $table->string('enSciName');
-            $table->string('arSciName');
-            $table->string('enUseName')->unique();
-            $table->string('arUseName');
-           // $table->string('enCatigory');
-           // $table->string('arCatigory');
+            $table->string('sciName');
+            $table->string('useName')->unique();
            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('companyName');
             $table->integer("qtn");

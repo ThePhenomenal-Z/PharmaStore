@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 class MedcineFilter{
     protected $safeParms =[
         'category_id'=>['eq'],
-        'enUseName'=>['eq','like'],
-        'enSciName'=>['eq','like'],
+        'useName'=>['eq','like'],
+        'sciName'=>['eq','like'],
         'price'=>['eq','lt','gt'],
         'qtn'=>['eq','lt','gt','lte','gte']
     ];

@@ -9,7 +9,7 @@ class Medcine extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "enSciName","arSciName","enUseName","arUseName",
+        "sciName","useName",
         "category_id","companyName","qtn","expiredDate",
         "price","description","user_id"
     ];

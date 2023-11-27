@@ -2,65 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\sent;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 
 class OrderController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+{  /**
+    * Place a new order.
+    */
+   public function store(StoreOrderRequest $request)
+   {
+    //    // Authorization check using Gate
+    //    Gate::authorize('placeOrder', Order::class);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+       $order = Order::create([
+           'user_id' => auth()->user()->id,
+       ]);
+       foreach ($request->input('items') as $item) {
+           OrderItem::create([
+               'order_id' => $order->id,
+               'medcine_id' => $item['medcine_id'],
+               'qtn_requested' => $item['qtn'],
+           ]);
+       }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreOrderRequest $request)
-    {
-        //
-    }
+       return response()->json(['message' => 'Order placed successfully']);
+   }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
+   /**
+    * View orders for the authenticated pharmacy user.
+    */
+   public function index()
+   {
+       // Authorization check using Gate
+    //    Gate::authorize('viewOrders', Order::class);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
+       $orders = Order::where('user_id', auth()->user()->id)->get();
+       return response()->json(['orders' => $orders]);
+   }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrderRequest $request, Order $order)
-    {
-        //
-    }
+   /**
+    * View all orders from the warehouse perspective.
+    */
+   public function viewAllOrders()
+   {
+       $orders = Order::all();
+       return response()->json(['orders' => $orders]);
+   }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
-    }
+   /**
+    * Update the status of an order.
+    */
+   public function updateStatus($orderId, $status)
+   {
+       $order = Order::findOrFail($orderId);
+       if($status === 'sent'){
+           event(new sent($order));
+       }
+
+       $order = Order::findOrFail($orderId);
+       $order->status = $status;
+       $order->save();
+
+       return response()->json(['message' => 'Order status updated']);
+   }
+
+   /**
+    * Update the billing status of an order.
+    */
+   public function updateBillingStatus($orderId, $billingstatus)
+   {
+
+       $order = Order::findOrFail($orderId);
+       $order->billingstatus = $billingstatus;
+       $order->save();
+
+       return response()->json(['message' => 'Payment status updated']);
+   }
 }

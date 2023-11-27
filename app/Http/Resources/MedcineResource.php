@@ -24,12 +24,8 @@ class MedcineResource extends JsonResource
         $cat=$this->category()->get();
         return [
             "id"=> $this->id,
-            "enSciName"=>$this->enSciName,
-            "arSciName"=>$this->arSciName,
-            "enUseName"=>$this->enUseName,
-            "arUseName"=>$this->arUseName,
-            // "enCatigory"=>$this->enCatigory,
-            // "arCatigory"=>$this->arCatigory,
+            "sciName"=>$this->sciName,
+            "useName"=>$this->useName,
             "category"=>CategoryResource::collection($cat),
             "companyName"=>$this->companyName,
             "qtn"=>$this->qtn,

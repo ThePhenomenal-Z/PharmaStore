@@ -90,6 +90,7 @@ class MedcineController extends Controller
     }
     public function addToFavorites(Request $request, $medcineId)
     {
+        dd(auth()->user());
         $userId = auth()->user()->id;
 
         // Check if the medicine is already in favorites

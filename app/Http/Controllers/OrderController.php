@@ -14,9 +14,6 @@ class OrderController extends Controller
     */
    public function store(StoreOrderRequest $request)
    {
-    //    // Authorization check using Gate
-    //    Gate::authorize('placeOrder', Order::class);
-
        $order = Order::create([
            'user_id' => auth()->user()->id,
        ]);
@@ -36,9 +33,6 @@ class OrderController extends Controller
     */
    public function index()
    {
-       // Authorization check using Gate
-    //    Gate::authorize('viewOrders', Order::class);
-
        $orders = Order::where('user_id', auth()->user()->id)->get();
        return response()->json(['orders' => $orders]);
    }

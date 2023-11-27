@@ -31,3 +31,6 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('orders', OrderController::class);
 });
 Route::get('viewOrders',[OrderController::class,'viewAllOrders']);
+Route::patch('orderStatus/{orderId}',[OrderController::class,'updateStatus']);
+Route::patch('billingStatus/{orderId}',[OrderController::class,'updateBillingStatus']);
+Route::post('addToFavorites/{medcineId}',[MedcineController::class,'addToFavorites']);

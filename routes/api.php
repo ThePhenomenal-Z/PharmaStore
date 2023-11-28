@@ -26,6 +26,8 @@ Route::post('login',[PharmacistController::class,'login']);
 Route::post('webLogin',[PharmacistController::class,'webLogin']);
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('medcines', MedcineController::class);
+    Route::post('/medcines/{medcineId}/add-to-favorites', [MedcineController::class, 'addToFavorites']);
+
 });
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('orders', OrderController::class);
@@ -33,4 +35,3 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::get('viewOrders',[OrderController::class,'viewAllOrders']);
 Route::patch('orderStatus/{orderId}',[OrderController::class,'updateStatus']);
 Route::patch('billingStatus/{orderId}',[OrderController::class,'updateBillingStatus']);
-Route::post('addToFavorites/{medcineId}',[MedcineController::class,'addToFavorites']);

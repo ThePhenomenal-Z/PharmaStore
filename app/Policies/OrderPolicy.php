@@ -27,9 +27,9 @@ class OrderPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function placeOrder(User $user): bool
     {
-        return !$user->isStoreOwner;
+        return true;
     }
 
     /**
@@ -39,23 +39,6 @@ class OrderPolicy
     {
         return $user->id==$order->user_id;
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Order $order): bool
-    {
-        return $user->id==$order->user_id;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Order $order): bool
-    {
-        return $user->id==$order->user_id;
-    }
-
     public function updateStatus(User $user, Order $order): bool
     {
         return $user->isStoreOwner;

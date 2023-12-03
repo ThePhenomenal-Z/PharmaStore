@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryCollection;
 use App\Models\Medcine;
 use App\Models\Category;
 use App\Models\Favourite;
@@ -104,6 +105,16 @@ class MedcineController extends Controller
         ]);
 
         return response()->json(['message' => 'Medcine added to favorites']);
+    }
+    //get favorites
+    public function viewFav(){
+        $user_id=Auth::id();
+        $fav=Favourite::where('user_id',$user_id)->get()->all();   
+        return $fav;    
+    }
+    //get categores
+    public function getCat(){
+        return new CategoryCollection(Category::all());
     }
     //
     public function __construct()

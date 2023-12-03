@@ -16,7 +16,7 @@ class Favourite extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function medcine()
+    public function medcines()
     {
         return $this->belongsTo(Medcine::class);
     }

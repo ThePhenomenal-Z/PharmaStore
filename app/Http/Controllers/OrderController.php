@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\sent;
+use App\Http\Requests\billingStatusRequest;
 use App\Http\Requests\statusRequest;
 use App\Models\Order;
 use App\Events\NewOrder;
@@ -71,11 +72,11 @@ class OrderController extends Controller
    /**
     * Update the billing status of an order.
     */
-   public function updateBillingStatus($orderId, $billingstatus)
+   public function updateBillingStatus($orderId,billingStatusRequest $billingstatus)
    {
 
        $order = Order::findOrFail($orderId);
-       $order->billingstatus = $billingstatus;
+       $order->billingstatus = $billingstatus->status;
        $order->save();
 
        return response()->json(['message' => 'Payment status updated']);

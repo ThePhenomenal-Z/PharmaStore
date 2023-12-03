@@ -33,7 +33,7 @@ class StoreMedcineRequest extends FormRequest
             "qtn"=>['required'],
             "expiredDate"=>['required'],
             "price"=> ['required'],
-           "description"=> ['required'],
+           "description"=> ['sometimes'],
            "category_id"=>['required','exists:categories,id']
         ];
     }

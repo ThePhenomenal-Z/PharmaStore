@@ -21,7 +21,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order): bool
     {
-        return $user->id==$order->user_id;
+        return $user->id==$order->user_id || $user->isStoreOwner;
     }
 
     /**
@@ -30,14 +30,6 @@ class OrderPolicy
     public function create(User $user): bool
     {
         return !$user->isStoreOwner;
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Order $order): bool
-    {
-        return $user->id==$order->user_id;
     }
 
     /**
@@ -62,5 +54,15 @@ class OrderPolicy
     public function forceDelete(User $user, Order $order): bool
     {
         return $user->id==$order->user_id;
+    }
+
+    public function updateStatus(User $user, Order $order): bool
+    {
+        return $user->isStoreOwner;
+    }
+
+    public function updateBillingStatus(User $user, Order $order): bool
+    {
+        return $user->isStoreOwner;
     }
 }

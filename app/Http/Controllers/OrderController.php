@@ -43,6 +43,7 @@ class OrderController extends Controller
    public function viewAllOrders()
    {
        $orders = Order::all();
+       // make order resource
        return response()->json(['orders' => $orders]);
    }
 

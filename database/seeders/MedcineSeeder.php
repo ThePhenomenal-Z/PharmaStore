@@ -13,7 +13,7 @@ class MedcineSeeder extends Seeder
      */
     public function run(): void
     {
-        $jsonString = file_get_contents('C:\xampp\htdocs\MedicalBay\public\temp.json');
+        $jsonString = file_get_contents('public\temp.json');
         $data = json_decode($jsonString, true);
         
         foreach ($data as $items) {
